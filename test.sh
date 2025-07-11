@@ -128,8 +128,8 @@ run_s_client_and_grep "" "test.openquantumsafe.org" "6001" "NamedGroup: UNKNOWN 
 run_s_client_and_grep "" "test.openquantumsafe.org" "6002" "CONNECTED(00000003)"
 run_s_client_and_grep "" "test.openquantumsafe.org" "6002" "NamedGroup: UNKNOWN (4588)"
 
-# TEST 4: Tests with the nginx server
-nginx
+# TEST 4: Tests with the apache server
+httpd
 run_s_client_and_grep "" "localhost" "443" "NamedGroup: UNKNOWN (4587)"
 run_s_client_and_grep "" "localhost" "443" "CONNECTED(00000003)"
 
