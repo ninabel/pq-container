@@ -1,19 +1,16 @@
 # QUBIP Fedora Reference Container Image
 
-This container image provides a reference environment based on Fedora rawhide
+This container image provides a reference environment based on Fedora
 with the correct configuration changes to enable post-quantum cryptography.
 
-## Using the containers
+## Building the container
 
-Pre-built versions of this container image are available from
-[quay.io](https://quay.io/repository/qubip/pq-container?tab=info). To use
-these, you will need a container runtime, e.g., `podman` on Linux or [Podman
-Desktop](https://podman-desktop.io/).
-
-To download the pre-built container image using `podman`, use
+To build the container on your local system, you can use `podman build`. Make
+sure that your current working directory contains the `Containerfile` when
+running this.
 
 ```sh
-podman pull quay.io/qubip/pq-container
+podman build -t pq-httpd-container .
 ```
 
 To run the container, use
@@ -22,7 +19,8 @@ To run the container, use
 podman run \
 	--rm \
 	-it \
-	quay.io/qubip/pq-container
+	pq-httpd-container
+
 ```
 
 ## Things to test in the container
@@ -69,15 +67,15 @@ openssl s_client \
 	-trace
 ```
 
-### Connecting to PQC-enabled nginx webserver running in the container
+### Connecting to PQC-enabled apache webserver running in the container
 
-An instance of the nginx webserver is configured to use post-quantum
+An instance of the apache webserver is configured to use post-quantum
 cryptography key exchange in the container and will listen on port 443.
 
 First, you need to start it by running
 
 ```sh
-/usr/sbin/nginx
+httpd
 ```
 
 Next, you can use OpenSSL's `s_client` to connect to it:
@@ -98,27 +96,9 @@ curl \
 	https://localhost/
 ```
 
-## Building the container
 
-To build the container on your local system, you can use `podman build`. Make
-sure that your current working directory contains the `Containerfile` when
-running this.
 
-```sh
-podman build -t pq-container .
-```
-
-Podman prefixes the names of all locally built containers with `localhost/`, so
-to run this container after building it, use
-
-```sh
-podman run \
-	--rm \
-	-it \
-	localhost/pq-container
-```
-
-## Replicating the container's setup on Fedora rawhide
+# Replicating the container's setup on Fedora rawhide
 
 The setup inside of the container can also be replicated manually on any Fedora
 rawhide installation by following the steps below:
